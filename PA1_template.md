@@ -39,9 +39,22 @@ hist(total.steps,
      col = "lightblue",border="blue")
 ```
 
+![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-1.png) 
+
 ```r
 mean(total.steps, na.rm=TRUE)
+```
+
+```
+## [1] 9354.23
+```
+
+```r
 median(total.steps, na.rm=TRUE)
+```
+
+```
+## [1] 10395
 ```
 ##### What is the average daily activity pattern?
 
@@ -52,10 +65,17 @@ plot(averages,type="l",
      xlab="5-minute interval",
      ylab="Average number of steps taken")
 ```
+
+![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3-1.png) 
 ##### Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
 ```r
 averages[which.max(averages$steps),]
+```
+
+```
+##     interval    steps
+## 104      835 206.1698
 ```
 ##### Imputing missing values
 Collect missing values.
@@ -67,6 +87,12 @@ Resume missing values.
 
 ```r
 table(missing)
+```
+
+```
+## missing
+## FALSE  TRUE 
+## 15264  2304
 ```
 This function will replace each missing value with the mean value of its 5-minute interval.
 
@@ -103,9 +129,22 @@ hist(total.steps,
      col = "lightblue",border="blue")
 ```
 
+![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10-1.png) 
+
 ```r
 mean(total.steps)
+```
+
+```
+## [1] 10766.19
+```
+
+```r
 median(total.steps)
+```
+
+```
+## [1] 10766.19
 ```
 Mean and median values are higher after imputing missing data. The original data has some days with steps values NA for any interval. The total number of steps taken in such days are set to 0s by default. After replacing missing steps values with the mean steps of associated interval value, those elements with (originally) 0 values are redistributed, as new histogram shows.
 
@@ -138,3 +177,5 @@ library(ggplot2)
 ggplot(averages, aes(interval, steps)) + geom_line() + facet_grid(dayfactor ~ .) +
   xlab("5-minute interval") + ylab("Number of steps")
 ```
+
+![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11-1.png) 
