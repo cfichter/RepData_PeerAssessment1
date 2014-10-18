@@ -21,12 +21,14 @@ The variables included in this dataset are:
 The dataset is stored in a comma-separated-value (CSV) file and there are a total of 17,568 observations in it.
 
 ##### Loading and preprocessing the data
-```{r, echo=TRUE}
+
+```r
 unzip(zipfile="repdata_data_activity.zip")
 data <- read.csv("activity.csv")
 ```
 ##### What is mean total number of steps taken per day?
-```{r,echo=TRUE}
+
+```r
 total.steps <- tapply(data$steps, data$date, FUN=sum, na.rm=TRUE)
 
 hist(total.steps,
@@ -35,12 +37,15 @@ hist(total.steps,
      xlab="Total number of steps taken each day",
      ylab="Frecuency (days)",
      col = "lightblue",border="blue")
+```
 
+```r
 mean(total.steps, na.rm=TRUE)
 median(total.steps, na.rm=TRUE)
 ```
 ##### What is the average daily activity pattern?
-```{r,echo=TRUE}
+
+```r
 averages <- aggregate(x=list(steps=data$steps), by=list(interval=data$interval),FUN=mean, na.rm=TRUE)
 
 plot(averages,type="l",
@@ -48,20 +53,24 @@ plot(averages,type="l",
      ylab="Average number of steps taken")
 ```
 ##### Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
-```{r,echo=TRUE}
+
+```r
 averages[which.max(averages$steps),]
 ```
 ##### Imputing missing values
 Collect missing values.
-```{r,echo=TRUE}
+
+```r
 missing <- is.na(data$steps)
 ```
 Resume missing values.
-```{r,echo=TRUE}
+
+```r
 table(missing)
 ```
 This function will replace each missing value with the mean value of its 5-minute interval.
-```{r,echo=TRUE}
+
+```r
 fill.value <- function(steps, interval) {
     filled <- NA
     if (!is.na(steps))
@@ -72,24 +81,29 @@ fill.value <- function(steps, interval) {
 }
 ```
 Generate a new dataset.
-```{r,echo=TRUE}
+
+```r
 filled.data <- data
 ```
 Fill using fill.value function and recalculate total.steps variable.
-```{r,echo=TRUE}
+
+```r
 filled.data$steps <- mapply(fill.value, filled.data$steps, filled.data$interval)
 
 total.steps <- tapply(filled.data$steps, filled.data$date, FUN=sum)
 ```
 Make a histogram of the total number of steps taken each day and calculate and report the mean and median total number of steps taken per day.
-```{r,echo=TRUE}
+
+```r
 hist(total.steps,
      breaks=(max(total.steps)-min(total.steps))/1000,
      main="Histogram of the total number of steps taken each day",
      xlab="Total number of steps taken each day",
      ylab="Frecuency (days)",
      col = "lightblue",border="blue")
+```
 
+```r
 mean(total.steps)
 median(total.steps)
 ```
@@ -101,7 +115,8 @@ In this part, we have to:
 - Create a new factor variable in the dataset with two levels, 'weekday' and 'weekend' indicating whether a given date is a weekday or a weekend day. The function 'weekday.or.weekend' take a date and return the adequated class. This function is used to fill the 'dayfactor' variable.
 - Make a panel plot containing a time series plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).
 
-```{r,echo=TRUE}
+
+```r
 library(lubridate)
 weekday.or.weekend <- function(date) {
   day <- wday(date)
