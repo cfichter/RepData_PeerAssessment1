@@ -1,4 +1,4 @@
-setwd("~/Varios Cristian/Coursera/Data Science Specialization/5-Reproducible Research/course project 1")
+#setwd("~/Varios Cristian/Coursera/Data Science Specialization/5-Reproducible Research/course project 1")
 
 ## Loading and preprocessing the data
 unzip(zipfile="repdata_data_activity.zip")
